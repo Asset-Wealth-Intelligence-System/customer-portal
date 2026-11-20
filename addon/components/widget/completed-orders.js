@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 
 export default class WidgetCompletedOrdersComponent extends Component {
+    @service intl;
     @service fetch;
     @tracked total = 0;
     @tracked error;
@@ -20,7 +21,7 @@ export default class WidgetCompletedOrdersComponent extends Component {
             this.error = null;
         } catch {
             this.total = 0;
-            this.error = 'Unable to load completed orders.';
+            this.error = this.intl.t('literal.customer-portal.unable-to-load-completed-orders');
         }
     }
 }

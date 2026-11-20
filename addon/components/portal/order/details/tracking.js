@@ -1,6 +1,8 @@
 import Component from '@glimmer/component';
 
+import { inject as service } from '@ember/service';
 export default class PortalOrderDetailsTrackingComponent extends Component {
+    @service intl;
     get normalizedStatus() {
         return String(this.args.resource?.status ?? '').toLowerCase();
     }
@@ -29,8 +31,8 @@ export default class PortalOrderDetailsTrackingComponent extends Component {
         if (this.isDispatchedWaitingStart) {
             return {
                 icon: 'truck-ramp-box',
-                title: 'Your order has been dispatched',
-                body: 'The delivery team has accepted this order. Live ETA appears once the route is started.',
+                title: this.intl.t('literal.customer-portal.your-order-has-been-dispatched'),
+                body: this.intl.t('literal.customer-portal.the-delivery-team-has-accepted-this-order-live-e-1c657'),
                 status: 'dispatched',
             };
         }
@@ -38,16 +40,16 @@ export default class PortalOrderDetailsTrackingComponent extends Component {
         if (this.isCreatedWaitingDispatch) {
             return {
                 icon: 'clipboard-check',
-                title: 'Your order has not started yet',
-                body: 'The request has been received and is waiting for dispatch. Tracking updates will appear here as the order moves.',
+                title: this.intl.t('literal.customer-portal.your-order-has-not-started-yet'),
+                body: this.intl.t('literal.customer-portal.the-request-has-been-received-and-is-waiting-for-caa8c'),
                 status: 'created',
             };
         }
 
         return {
             icon: 'location-crosshairs',
-            title: 'Tracking is not available yet',
-            body: 'Live ETA and route progress will appear as soon as movement data is available for this order.',
+            title: this.intl.t('literal.customer-portal.tracking-is-not-available-yet'),
+            body: this.intl.t('literal.customer-portal.live-eta-and-route-progress-will-appear-as-soon-5f2b8'),
             status: this.normalizedStatus || 'pending',
         };
     }

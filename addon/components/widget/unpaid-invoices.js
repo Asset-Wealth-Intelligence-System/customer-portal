@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 
 export default class WidgetUnpaidInvoicesComponent extends Component {
+    @service intl;
     @service fetch;
     @tracked total = 0;
     @tracked currency;
@@ -22,7 +23,7 @@ export default class WidgetUnpaidInvoicesComponent extends Component {
             this.error = null;
         } catch {
             this.total = 0;
-            this.error = 'Unable to load invoices.';
+            this.error = this.intl.t('literal.customer-portal.unable-to-load-invoices');
         }
     }
 }

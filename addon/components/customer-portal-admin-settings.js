@@ -7,6 +7,7 @@ import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 
 export default class CustomerPortalAdminSettingsComponent extends Component {
+    @service intl;
     @service fetch;
     @service notifications;
     @tracked accessUrlSlug;
@@ -63,7 +64,7 @@ export default class CustomerPortalAdminSettingsComponent extends Component {
             this.enabledServiceRateIds = config.enabledServiceRateIds ?? this.enabledServiceRateIds;
             this.paymentsEnabled = config.paymentsEnabled === true;
             this.paymentsOnboardCompleted = config.paymentsOnboardCompleted === true;
-            this.notifications.success('Customer portal settings saved.');
+            this.notifications.success(this.intl.t('literal.customer-portal.customer-portal-settings-saved'));
         } catch (error) {
             this.notifications.serverError(error);
         }
@@ -90,12 +91,12 @@ export default class CustomerPortalAdminSettingsComponent extends Component {
     @action togglePayments(enabled) {
         if (enabled && !this.isStripeEnabled) {
             this.paymentsEnabled = false;
-            return this.notifications.warning('Stripe must be configured before customer portal payments can be enabled.');
+            return this.notifications.warning(this.intl.t('literal.customer-portal.stripe-must-be-configured-before-customer-portal-e38a7'));
         }
 
         if (enabled && !this.paymentsOnboardCompleted) {
             this.paymentsEnabled = false;
-            return this.notifications.warning('Stripe onboarding must be completed before customer portal payments can be enabled.');
+            return this.notifications.warning(this.intl.t('literal.customer-portal.stripe-onboarding-must-be-completed-before-custo-dd4c0'));
         }
 
         this.paymentsEnabled = enabled;

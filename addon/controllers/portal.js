@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
 export default class PortalController extends Controller {
+    @service intl;
     @service universe;
     @service session;
     @service currentUser;
@@ -13,7 +14,7 @@ export default class PortalController extends Controller {
     }
 
     get accountTypeLabel() {
-        return this.customerSession.accountType === 'vendor' ? 'Company account' : 'Customer account';
+        return this.customerSession.accountType === 'vendor' ? this.intl.t('literal.customer-portal.company-account') : this.intl.t('literal.customer-portal.customer-account');
     }
 
     get accountEmail() {

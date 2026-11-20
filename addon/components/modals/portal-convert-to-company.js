@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class ModalsPortalConvertToCompanyComponent extends Component {
+    @service intl;
     @service customerSession;
     @service fetch;
     @service notifications;
@@ -38,7 +39,7 @@ export default class ModalsPortalConvertToCompanyComponent extends Component {
                     { namespace: 'customer-portal/int/v1' }
                 );
 
-                this.notifications.success('Company account created.');
+                this.notifications.success(this.intl.t('literal.customer-portal.company-account-created'));
 
                 if (typeof this.options.onConverted === 'function') {
                     this.options.onConverted();

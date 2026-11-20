@@ -1,5 +1,5 @@
-<ContentPanel @title="Notes" @open={{true}} @wrapperClass="bordered-top">
-    <InputGroup @name="Notes">
-        <Textarea @value={{@draft.notes}} class="form-input w-full" rows="4" placeholder="Anything the operations team should know." {{on "input" this.setNotes}} />
+<ContentPanel @title={{t "literal.customer-portal.notes"}} @open={{true}} @wrapperClass="bordered-top">
+    <InputGroup @name={{t "literal.customer-portal.notes"}}>
+        <Textarea @value={{@draft.notes}} class="form-input w-full" rows="4" placeholder={{t "literal.customer-portal.anything-the-operations-team-should-know"}} {{on "input" this.setNotes}} />
     </InputGroup>
 </ContentPanel>

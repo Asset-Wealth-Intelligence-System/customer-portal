@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { OSRMv1, Control as RoutingControl } from '@fleetbase/leaflet-routing-machine';
 import getRoutingHost from '@fleetbase/ember-core/utils/get-routing-host';
 
+import { inject as service } from '@ember/service';
 const DEFAULT_FIT_PADDING_BOTTOM_RIGHT = [520, 0];
 const SINGLE_POINT_PAN_BY = [260, 0];
 const SINGLE_POINT_ZOOM = 18;
@@ -11,6 +12,7 @@ const TWO_POINT_MAX_ZOOM = 13;
 const MULTI_POINT_MAX_ZOOM = 12;
 
 export default class CustomerPortalOrderRoutePreviewService extends Service {
+    @service intl;
     @tracked map;
     @tracked route;
     @tracked routePoints = [];
@@ -307,18 +309,18 @@ export default class CustomerPortalOrderRoutePreviewService extends Service {
 
     labelForType(type, index, stopNumber = null) {
         if (type === 'pickup') {
-            return 'Pickup';
+            return this.intl.t('literal.customer-portal.pickup');
         }
 
         if (type === 'return') {
-            return 'Return';
+            return this.intl.t('literal.customer-portal.return');
         }
 
         if (type === 'dropoff' && index <= 1) {
-            return 'Dropoff';
+            return this.intl.t('literal.customer-portal.dropoff');
         }
 
-        return `Stop ${stopNumber ?? index + 1}`;
+        return this.intl.t('literal.customer-portal.stop', { value: stopNumber ?? index + 1 });
     }
 
     defaultWaypointType(index) {

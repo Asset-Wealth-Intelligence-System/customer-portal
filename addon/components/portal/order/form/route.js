@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import { restartableTask, timeout } from 'ember-concurrency';
 
 export default class PortalOrderFormRouteComponent extends Component {
+    @service intl;
     @service customerPortalOrderActions;
     @service customerPortalOrderCreation;
     @service customerPortalOrderRoutePreview;
@@ -21,7 +22,7 @@ export default class PortalOrderFormRouteComponent extends Component {
     get actionButtons() {
         const buttons = [
             {
-                text: 'New Address',
+                text: this.intl.t('literal.customer-portal.new-address'),
                 icon: 'plus',
                 size: 'xs',
                 wrapperClass: 'portal-order-panel-action-button',
@@ -31,7 +32,7 @@ export default class PortalOrderFormRouteComponent extends Component {
 
         if (this.args.draft?.isMultipleDropoffOrder) {
             buttons.push({
-                text: 'Add Waypoint',
+                text: this.intl.t('literal.customer-portal.add-waypoint'),
                 icon: 'map-location-dot',
                 size: 'xs',
                 wrapperClass: 'portal-order-panel-action-button',
@@ -113,10 +114,10 @@ export default class PortalOrderFormRouteComponent extends Component {
         const place = {};
 
         this.modalsManager.show('modals/portal-order-place-form', {
-            title: 'New Address',
+            title: this.intl.t('literal.customer-portal.new-address'),
             modalClass: 'modal-md',
-            acceptButtonText: 'Save Address',
-            declineButtonText: 'Cancel',
+            acceptButtonText: this.intl.t('literal.customer-portal.save-address'),
+            declineButtonText: this.intl.t('literal.customer-portal.cancel'),
             place,
             confirm: () => this.savePlace(place),
         });
@@ -131,10 +132,10 @@ export default class PortalOrderFormRouteComponent extends Component {
         const editablePlace = this.editablePlace(place);
 
         this.modalsManager.show('modals/portal-order-place-form', {
-            title: 'Edit Address',
+            title: this.intl.t('literal.customer-portal.edit-address-0dbd2'),
             modalClass: 'modal-md',
-            acceptButtonText: 'Save Changes',
-            declineButtonText: 'Cancel',
+            acceptButtonText: this.intl.t('literal.customer-portal.save-changes'),
+            declineButtonText: this.intl.t('literal.customer-portal.cancel'),
             place: editablePlace,
             confirm: () => this.savePlace(editablePlace),
         });
@@ -161,7 +162,7 @@ export default class PortalOrderFormRouteComponent extends Component {
 
             this.closePlaceForm();
             this.updateRoutePreview();
-            this.notifications.success(isEdit ? 'Address updated.' : 'Address saved.');
+            this.notifications.success(isEdit ? this.intl.t('literal.customer-portal.address-updated') : this.intl.t('literal.customer-portal.address-saved'));
         } catch (error) {
             this.notifications.serverError(error);
         }

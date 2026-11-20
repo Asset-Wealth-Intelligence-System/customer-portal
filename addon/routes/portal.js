@@ -5,6 +5,7 @@ import removeBootLoader from '@fleetbase/console/utils/remove-boot-loader';
 import '@fleetbase/leaflet-routing-machine';
 
 export default class PortalRoute extends Route {
+    @service intl;
     @service('universe/hook-service') hookService;
     @service('universe/extension-manager') extensionManager;
     @service session;
@@ -35,7 +36,7 @@ export default class PortalRoute extends Route {
                 return customer;
             } catch (err) {
                 this.session.invalidateWithLoader();
-                this.notifications.error('No customer found for user account.');
+                this.notifications.error(this.intl.t('literal.customer-portal.no-customer-found-for-user-account'));
             }
         }
     }

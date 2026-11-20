@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 
 export default class WidgetPendingActionsComponent extends Component {
+    @service intl;
     @service fetch;
     @tracked actions = [];
     @tracked error;
@@ -20,7 +21,7 @@ export default class WidgetPendingActionsComponent extends Component {
             this.error = null;
         } catch {
             this.actions = [];
-            this.error = 'Unable to load pending actions.';
+            this.error = this.intl.t('literal.customer-portal.unable-to-load-pending-actions');
         }
     }
 

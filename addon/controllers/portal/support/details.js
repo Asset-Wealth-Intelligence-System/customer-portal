@@ -7,6 +7,7 @@ import { capitalize } from '@ember/string';
 const NAMESPACE = 'customer-portal/int/v1';
 
 export default class PortalSupportDetailsController extends Controller {
+    @service intl;
     @service fetch;
     @service notifications;
     @service currentUser;
@@ -27,11 +28,11 @@ export default class PortalSupportDetailsController extends Controller {
     }
 
     get title() {
-        return this.issue?.title ?? this.ticketNumber ?? 'Support Ticket';
+        return this.issue?.title ?? this.ticketNumber ?? this.intl.t('literal.customer-portal.support-ticket');
     }
 
     get reporterName() {
-        return this.issue?.reporter?.name ?? this.issue?.reporter_name ?? this.customerSession.get('name') ?? this.currentUser.name ?? 'Customer';
+        return this.issue?.reporter?.name ?? this.issue?.reporter_name ?? this.customerSession.get('name') ?? this.currentUser.name ?? this.intl.t('literal.customer-portal.customer');
     }
 
     get reporterEmail() {
@@ -39,7 +40,7 @@ export default class PortalSupportDetailsController extends Controller {
     }
 
     get reporterInitials() {
-        const name = this.reporterName || 'Customer';
+        const name = this.reporterName || this.intl.t('literal.customer-portal.customer');
         const words = name.split(/\s+/).filter(Boolean);
         const initials = words
             .slice(0, 2)
@@ -138,28 +139,28 @@ export default class PortalSupportDetailsController extends Controller {
 
     @action async publishComment(content) {
         await this.fetch.post(`issues/${this.issueId}/comments`, { content }, { namespace: NAMESPACE });
-        this.notifications.success('Reply posted.');
+        this.notifications.success(this.intl.t('literal.customer-portal.reply-posted'));
     }
 
     @action async publishReply(comment, content) {
         const commentId = this.identifier(comment);
 
         await this.fetch.post(`issues/${this.issueId}/comments/${commentId}/replies`, { content }, { namespace: NAMESPACE });
-        this.notifications.success('Reply posted.');
+        this.notifications.success(this.intl.t('literal.customer-portal.reply-posted'));
     }
 
     @action async updateComment(comment) {
         const commentId = this.identifier(comment);
 
         await this.fetch.patch(`issues/${this.issueId}/comments/${commentId}`, { content: comment.content }, { namespace: NAMESPACE });
-        this.notifications.success('Comment updated.');
+        this.notifications.success(this.intl.t('literal.customer-portal.comment-updated'));
     }
 
     @action async deleteComment(comment) {
         const commentId = this.identifier(comment);
 
         await this.fetch.delete(`issues/${this.issueId}/comments/${commentId}`, {}, { namespace: NAMESPACE });
-        this.notifications.success('Comment deleted.');
+        this.notifications.success(this.intl.t('literal.customer-portal.comment-deleted'));
     }
 
     @action downloadFile(file) {

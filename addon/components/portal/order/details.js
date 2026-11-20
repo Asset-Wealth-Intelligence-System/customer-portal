@@ -7,6 +7,7 @@ import { arrayFor, valueFor } from '../../../utils/model-access';
 const CLOSED_STATUSES = ['completed', 'done', 'canceled', 'cancelled'];
 
 export default class PortalOrderDetailsComponent extends Component {
+    @service intl;
     @service customerPortalOrderActions;
     @service hostRouter;
     @service modalsManager;
@@ -34,13 +35,13 @@ export default class PortalOrderDetailsComponent extends Component {
                 renderInPlace: true,
                 items: [
                     {
-                        text: 'View Label',
+                        text: this.intl.t('literal.customer-portal.view-label'),
                         icon: 'file-invoice',
                         disabled: !this.labelUrl,
                         fn: this.viewLabel,
                     },
                     {
-                        text: 'Create Support Ticket',
+                        text: this.intl.t('literal.customer-portal.create-support-ticket'),
                         icon: 'headset',
                         fn: this.createSupportTicket,
                     },
@@ -48,7 +49,7 @@ export default class PortalOrderDetailsComponent extends Component {
                         separator: true,
                     },
                     {
-                        text: 'Reschedule',
+                        text: this.intl.t('literal.customer-portal.reschedule'),
                         icon: 'calendar',
                         disabled: !this.canModify,
                         fn: this.openRescheduleModal,
@@ -57,7 +58,7 @@ export default class PortalOrderDetailsComponent extends Component {
                         separator: true,
                     },
                     {
-                        text: 'Cancel Order',
+                        text: this.intl.t('literal.customer-portal.cancel-order'),
                         icon: 'ban',
                         class: 'text-danger',
                         disabled: !this.canModify,
@@ -74,7 +75,7 @@ export default class PortalOrderDetailsComponent extends Component {
 
     @action viewLabel() {
         if (!this.labelUrl) {
-            this.notifications.info('No label is available for this order yet.');
+            this.notifications.info(this.intl.t('literal.customer-portal.no-label-is-available-for-this-order-yet'));
             return;
         }
 
@@ -95,10 +96,10 @@ export default class PortalOrderDetailsComponent extends Component {
         };
 
         this.modalsManager.show('modals/portal-order-reschedule', {
-            title: 'Reschedule Order',
+            title: this.intl.t('literal.customer-portal.reschedule-order'),
             modalClass: 'modal-md',
-            acceptButtonText: 'Reschedule',
-            declineButtonText: 'Cancel',
+            acceptButtonText: this.intl.t('literal.customer-portal.reschedule'),
+            declineButtonText: this.intl.t('literal.customer-portal.cancel'),
             reschedule,
             confirm: () => this.rescheduleOrder(reschedule.scheduled_at),
         });
@@ -106,9 +107,9 @@ export default class PortalOrderDetailsComponent extends Component {
 
     @action async confirmCancelOrder() {
         await this.modalsManager.confirm({
-            title: 'Cancel this order?',
-            body: 'This will cancel the delivery request for this order.',
-            acceptButtonText: 'Cancel Order',
+            title: this.intl.t('literal.customer-portal.cancel-this-order'),
+            body: this.intl.t('literal.customer-portal.this-will-cancel-the-delivery-request-for-this-o-48502'),
+            acceptButtonText: this.intl.t('literal.customer-portal.cancel-order'),
             acceptButtonType: 'danger',
             confirm: this.cancelOrder,
         });
@@ -117,7 +118,7 @@ export default class PortalOrderDetailsComponent extends Component {
     @action async cancelOrder() {
         try {
             this.order = await this.customerPortalOrderActions.cancelOrder.perform(this.order);
-            this.notifications.success('Order canceled.');
+            this.notifications.success(this.intl.t('literal.customer-portal.order-canceled'));
         } catch (error) {
             this.notifications.serverError(error);
         }
@@ -125,13 +126,13 @@ export default class PortalOrderDetailsComponent extends Component {
 
     @action async rescheduleOrder(scheduledAt) {
         if (!scheduledAt) {
-            this.notifications.warning('Choose a new delivery time before rescheduling.');
+            this.notifications.warning(this.intl.t('literal.customer-portal.choose-a-new-delivery-time-before-rescheduling'));
             return;
         }
 
         try {
             this.order = await this.customerPortalOrderActions.rescheduleOrder.perform(this.order, scheduledAt);
-            this.notifications.success('Order rescheduled.');
+            this.notifications.success(this.intl.t('literal.customer-portal.order-rescheduled'));
         } catch (error) {
             this.notifications.serverError(error);
         }

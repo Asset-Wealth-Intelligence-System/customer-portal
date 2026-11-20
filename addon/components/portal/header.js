@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
 export default class PortalHeaderComponent extends Component {
+    @service intl;
     @service router;
     @service hostRouter;
     @service universe;
@@ -47,7 +48,7 @@ export default class PortalHeaderComponent extends Component {
                 id: 'view-profile-user-nav-item',
                 wrapperClass: 'view-profile-user-nav-item',
                 route: 'portal.account',
-                text: 'Account',
+                text: this.intl.t('literal.customer-portal.account'),
             },
         ];
 
@@ -64,7 +65,7 @@ export default class PortalHeaderComponent extends Component {
             },
             {
                 href: 'javascript:;',
-                text: 'Logout',
+                text: this.intl.t('literal.customer-portal.logout'),
                 action: 'invalidateSession',
                 icon: 'person-running',
             },

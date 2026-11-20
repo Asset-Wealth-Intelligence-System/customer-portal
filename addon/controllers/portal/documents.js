@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { valueFor } from '../../utils/model-access';
 
 export default class PortalDocumentsController extends Controller {
+    @service intl;
     @service notifications;
 
     @action async downloadDocument(document) {
@@ -23,6 +24,6 @@ export default class PortalDocumentsController extends Controller {
             return;
         }
 
-        this.notifications.info('This file is not available for download yet.');
+        this.notifications.info(this.intl.t('literal.customer-portal.this-file-is-not-available-for-download-yet'));
     }
 }

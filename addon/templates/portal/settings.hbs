@@ -1,14 +1,14 @@
 <div class="portal-content-wrapper">
     <div class="portal-settings-header">
         <div>
-            <div class="portal-section-eyebrow">Settings</div>
-            <h1 class="text-lg font-bold">Account Settings</h1>
+            <div class="portal-section-eyebrow">{{t "literal.customer-portal.settings"}}</div>
+            <h1 class="text-lg font-bold">{{t "literal.customer-portal.account-settings"}}</h1>
         </div>
     </div>
 
     <div class="portal-settings-tabs">
-        <LinkTo @route="portal.settings.account" class="portal-settings-tab">Account</LinkTo>
-        <LinkTo @route="portal.settings.members" class="portal-settings-tab">Members</LinkTo>
+        <LinkTo @route="portal.settings.account" class="portal-settings-tab">{{t "literal.customer-portal.account"}}</LinkTo>
+        <LinkTo @route="portal.settings.members" class="portal-settings-tab">{{t "literal.customer-portal.members"}}</LinkTo>
     </div>
 
     {{outlet}}

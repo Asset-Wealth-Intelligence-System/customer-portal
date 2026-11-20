@@ -6,6 +6,7 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 
 export default class PortalAccountController extends Controller {
+    @service intl;
     /**
      * Inject the `currentUser` service.
      *
@@ -49,10 +50,12 @@ export default class PortalAccountController extends Controller {
     @tracked companyEmail;
     @tracked companyPhone;
 
-    roleOptions = [
-        { label: 'Admin', value: 'admin', description: 'Can manage account settings and personnel.' },
-        { label: 'Member', value: 'member', description: 'Can access the customer workspace.' },
+    get roleOptions() {
+        return [
+        { label: this.intl.t('literal.customer-portal.admin'), value: 'admin', description: this.intl.t('literal.customer-portal.can-manage-account-settings-and-personnel') },
+        { label: this.intl.t('literal.customer-portal.member'), value: 'member', description: this.intl.t('literal.customer-portal.can-access-the-customer-workspace') },
     ];
+    }
 
     /**
      * Alias to the currentUser service user record.
@@ -190,7 +193,7 @@ export default class PortalAccountController extends Controller {
             );
 
             yield this.customerSession.promiseCurrentCustomer();
-            this.notifications.success('Company account created.');
+            this.notifications.success(this.intl.t('literal.customer-portal.company-account-created'));
             this.loadPersonnel.perform();
         } catch (error) {
             this.notifications.serverError(error);
@@ -219,7 +222,7 @@ export default class PortalAccountController extends Controller {
         }
 
         if (!this.canAddPersonnel) {
-            this.notifications.warning(this.isAddingExistingContact ? 'Select a contact to add.' : 'Name and email are required.');
+            this.notifications.warning(this.isAddingExistingContact ? this.intl.t('literal.customer-portal.select-a-contact-to-add') : this.intl.t('literal.customer-portal.name-and-email-are-required'));
             return;
         }
 
@@ -245,7 +248,7 @@ export default class PortalAccountController extends Controller {
             }
 
             this.clearPersonnelForm();
-            this.notifications.success('Personnel added.');
+            this.notifications.success(this.intl.t('literal.customer-portal.personnel-added'));
         } catch (error) {
             this.notifications.serverError(error);
         }
@@ -255,7 +258,7 @@ export default class PortalAccountController extends Controller {
         try {
             yield this.fetch.delete(`account/personnels/${personnel.id}`, {}, { namespace: 'customer-portal/int/v1' });
             this.personnels = this.personnels.filter((item) => item.id !== personnel.id);
-            this.notifications.success('Personnel removed.');
+            this.notifications.success(this.intl.t('literal.customer-portal.personnel-removed'));
         } catch (error) {
             this.notifications.serverError(error);
         }
@@ -282,7 +285,7 @@ export default class PortalAccountController extends Controller {
         if (canUpdateProfile === true) {
             try {
                 const user = yield this.user.save();
-                this.notifications.success('Profile changes saved.');
+                this.notifications.success(this.intl.t('literal.customer-portal.profile-changes-saved'));
                 this.currentUser.set('user', user);
             } catch (error) {
                 this.notifications.serverError(error);
@@ -302,7 +305,7 @@ export default class PortalAccountController extends Controller {
         let isPasswordValid = false;
 
         yield this.modalsManager.show('modals/validate-password', {
-            body: 'You must validate your password to update the account email address.',
+            body: this.intl.t('literal.customer-portal.you-must-validate-your-password-to-update-the-ac-56898'),
             onValidated: (isValid) => {
                 isPasswordValid = isValid;
             },

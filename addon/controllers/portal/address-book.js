@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
 export default class PortalAddressBookController extends Controller {
+    @service intl;
     @service fetch;
     @service modalsManager;
     @service notifications;
@@ -14,7 +15,7 @@ export default class PortalAddressBookController extends Controller {
     get actionButtons() {
         return [
             {
-                text: 'New Place',
+                text: this.intl.t('literal.customer-portal.new-place'),
                 icon: 'plus',
                 size: 'xs',
                 wrapperClass: 'portal-order-panel-action-button',
@@ -27,10 +28,10 @@ export default class PortalAddressBookController extends Controller {
         const place = {};
 
         this.modalsManager.show('modals/portal-order-place-form', {
-            title: 'New Place',
+            title: this.intl.t('literal.customer-portal.new-place'),
             modalClass: 'modal-md',
-            acceptButtonText: 'Save Place',
-            declineButtonText: 'Cancel',
+            acceptButtonText: this.intl.t('literal.customer-portal.save-place'),
+            declineButtonText: this.intl.t('literal.customer-portal.cancel'),
             place,
             confirm: () => this.savePlace(place),
         });
@@ -58,10 +59,10 @@ export default class PortalAddressBookController extends Controller {
         };
 
         this.modalsManager.show('modals/portal-order-place-form', {
-            title: 'Edit Place',
+            title: this.intl.t('literal.customer-portal.edit-place-44b71'),
             modalClass: 'modal-md',
-            acceptButtonText: 'Save Changes',
-            declineButtonText: 'Cancel',
+            acceptButtonText: this.intl.t('literal.customer-portal.save-changes'),
+            declineButtonText: this.intl.t('literal.customer-portal.cancel'),
             place: editablePlace,
             confirm: () => this.savePlace(editablePlace),
         });
@@ -69,9 +70,9 @@ export default class PortalAddressBookController extends Controller {
 
     @action async deletePlace(place) {
         await this.modalsManager.confirm({
-            title: 'Delete saved place?',
-            body: 'This removes the place from your customer portal address book.',
-            acceptButtonText: 'Delete',
+            title: this.intl.t('literal.customer-portal.delete-saved-place'),
+            body: this.intl.t('literal.customer-portal.this-removes-the-place-from-your-customer-portal-d707e'),
+            acceptButtonText: this.intl.t('literal.customer-portal.delete'),
             acceptButtonType: 'danger',
             confirm: async () => {
                 try {
@@ -80,7 +81,7 @@ export default class PortalAddressBookController extends Controller {
                         ...this.model,
                         places: this.places.filter((candidate) => this.identifier(candidate) !== this.identifier(place)),
                     };
-                    this.notifications.success('Place removed.');
+                    this.notifications.success(this.intl.t('literal.customer-portal.place-removed'));
                 } catch (error) {
                     this.notifications.serverError(error);
                 }
@@ -108,7 +109,7 @@ export default class PortalAddressBookController extends Controller {
                 ...this.model,
                 places,
             };
-            this.notifications.success(id ? 'Place updated.' : 'Place saved.');
+            this.notifications.success(id ? this.intl.t('literal.customer-portal.place-updated') : this.intl.t('literal.customer-portal.place-saved'));
         } catch (error) {
             this.notifications.serverError(error);
         }

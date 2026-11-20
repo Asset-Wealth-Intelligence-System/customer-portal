@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 
 export default class WidgetRecentOrdersComponent extends Component {
+    @service intl;
     @service fetch;
     @tracked orders = [];
     @tracked error;
@@ -20,7 +21,7 @@ export default class WidgetRecentOrdersComponent extends Component {
             this.error = null;
         } catch {
             this.orders = [];
-            this.error = 'Unable to load recent orders.';
+            this.error = this.intl.t('literal.customer-portal.unable-to-load-recent-orders');
         }
     }
 
@@ -42,7 +43,7 @@ export default class WidgetRecentOrdersComponent extends Component {
             status: order.status,
             pickupAddress: this.addressForPlace(pickup?.place),
             dropoffAddress: this.addressForPlace(dropoff?.place),
-            dropoffLabel: dropoff?.type === 'return' ? 'Return' : 'Dropoff',
+            dropoffLabel: dropoff?.type === 'return' ? this.intl.t('literal.customer-portal.return') : this.intl.t('literal.customer-portal.dropoff'),
             dropoffMarker: middleStopCount + 2,
             middleStopCount,
             date: order.scheduled_at ?? order.created_at,

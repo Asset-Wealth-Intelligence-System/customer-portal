@@ -1,24 +1,24 @@
 <Portal::ContentWrapper class="portal-page-card">
     <div class="portal-section-header">
         <div>
-            <div class="portal-section-eyebrow">Support Center</div>
-            <h1>New Support Ticket</h1>
-            <p>Send order, billing, document, or account questions to the support team.</p>
+            <div class="portal-section-eyebrow">{{t "literal.customer-portal.support-center"}}</div>
+            <h1>{{t "literal.customer-portal.new-support-ticket"}}</h1>
+            <p>{{t "literal.customer-portal.send-order-billing-document-or-account-questions-631fd"}}</p>
         </div>
         <LinkTo @route="portal.support" class="portal-quick-link">
             <FaIcon @icon="arrow-left" />
-            <span>Back to Support</span>
+            <span>{{t "literal.customer-portal.back-to-support"}}</span>
         </LinkTo>
     </div>
 
     <form {{on "submit" (perform this.createTicket)}} class="portal-form-stack portal-form-surface">
-        <InputGroup @name="Subject" @value={{this.title}} @placeholder="What do you need help with?" />
-        <InputGroup @name="Order" @helpText="Optional order reference.">
+        <InputGroup @name={{t "literal.customer-portal.subject"}} @value={{this.title}} @placeholder={{t "literal.customer-portal.what-do-you-need-help-with"}} />
+        <InputGroup @name={{t "literal.customer-portal.order"}} @helpText={{t "literal.customer-portal.optional-order-reference"}}>
             <PowerSelect
                 @options={{this.model.orders}}
                 @selected={{this.order}}
                 @onChange={{fn (mut this.order)}}
-                @placeholder="Select related order"
+                @placeholder={{t "literal.customer-portal.select-related-order"}}
                 @triggerClass="form-select form-input"
                 @allowClear={{true}}
                 as |order|
@@ -26,13 +26,13 @@
                 {{or order.tracking_number.tracking_number order.public_id order.id}}
             </PowerSelect>
         </InputGroup>
-        <InputGroup @name="Category">
+        <InputGroup @name={{t "literal.customer-portal.category"}}>
             <div class="fleetbase-model-select fleetbase-power-select ember-model-select">
                 <PowerSelect
                     @options={{this.customerIssueCategories}}
                     @selected={{this.selectedIssueCategory}}
                     @onChange={{this.setIssueCategory}}
-                    @placeholder="Select category"
+                    @placeholder={{t "literal.customer-portal.select-category"}}
                     @triggerClass="form-select form-input"
                     @renderInPlace={{true}}
                     as |category|
@@ -44,13 +44,13 @@
                 </PowerSelect>
             </div>
         </InputGroup>
-        <InputGroup @name="Priority">
+        <InputGroup @name={{t "literal.customer-portal.priority"}}>
             <div class="fleetbase-model-select fleetbase-power-select ember-model-select">
                 <PowerSelect
                     @options={{this.issuePriorities}}
                     @selected={{this.selectedIssuePriority}}
                     @onChange={{this.setIssuePriority}}
-                    @placeholder="Select priority"
+                    @placeholder={{t "literal.customer-portal.select-priority"}}
                     @triggerClass="form-select form-input"
                     @renderInPlace={{true}}
                     as |priority|
@@ -62,19 +62,19 @@
                 </PowerSelect>
             </div>
         </InputGroup>
-        <InputGroup @name="Tags" @helpText="Optional labels that help the support team route your request.">
-            <TagInput class="form-input" @tags={{this.tags}} @addTag={{this.addTag}} @removeTagAtIndex={{this.removeTag}} @placeholder="Add tags" as |tag|>
+        <InputGroup @name={{t "literal.customer-portal.tags"}} @helpText={{t "literal.customer-portal.optional-labels-that-help-the-support-team-route-08ec1"}}>
+            <TagInput class="form-input" @tags={{this.tags}} @addTag={{this.addTag}} @removeTagAtIndex={{this.removeTag}} @placeholder={{t "literal.customer-portal.add-tags"}} as |tag|>
                 {{tag}}
             </TagInput>
         </InputGroup>
-        <InputGroup @name="Details">
-            <Textarea @value={{this.report}} class="form-input w-full" rows="6" placeholder="Add details for the support team." />
+        <InputGroup @name={{t "literal.customer-portal.details"}}>
+            <Textarea @value={{this.report}} class="form-input w-full" rows="6" placeholder={{t "literal.customer-portal.add-details-for-the-support-team"}} />
         </InputGroup>
         <div class="portal-form-actions">
             <LinkTo @route="portal.support" class="portal-quick-link">
-                <span>Cancel</span>
+                <span>{{t "literal.customer-portal.cancel"}}</span>
             </LinkTo>
-            <Button @buttonType="submit" @type="primary" @icon="paper-plane" @text="Create Ticket" @isLoading={{this.createTicket.isRunning}} />
+            <Button @buttonType="submit" @type="primary" @icon="paper-plane" @text={{t "literal.customer-portal.create-ticket"}} @isLoading={{this.createTicket.isRunning}} />
         </div>
     </form>
 </Portal::ContentWrapper>

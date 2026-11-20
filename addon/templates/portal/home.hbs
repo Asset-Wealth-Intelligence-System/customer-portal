@@ -2,28 +2,28 @@
     <div class="portal-dashboard-hero">
         <div>
             <div class="portal-dashboard-eyebrow">{{this.accountTypeLabel}}</div>
-            <h1>Welcome, {{this.customerName}}</h1>
-            <p>Track deliveries, invoices, documents, and support activity from one customer workspace.</p>
+            <h1>{{t "literal.customer-portal.welcome"}} {{this.customerName}}</h1>
+            <p>{{t "literal.customer-portal.track-deliveries-invoices-documents-and-support-9a2bc"}}</p>
         </div>
         <div class="portal-dashboard-quick-actions">
             <LinkTo @route="portal.support" class="portal-quick-link primary">
                 <FaIcon @icon="headset" />
-                <span>New Support Ticket</span>
+                <span>{{t "literal.customer-portal.new-support-ticket"}}</span>
             </LinkTo>
             <LinkTo @route="portal.billing" class="portal-quick-link">
                 <FaIcon @icon="file-invoice-dollar" />
-                <span>View Billing</span>
+                <span>{{t "literal.customer-portal.view-billing"}}</span>
             </LinkTo>
             <LinkTo @route="portal.documents" class="portal-quick-link">
                 <FaIcon @icon="folder-open" />
-                <span>Documents</span>
+                <span>{{t "literal.customer-portal.documents"}}</span>
             </LinkTo>
         </div>
     </div>
 
     <Dashboard
         @defaultDashboardId="customer-portal-overview-v2"
-        @defaultDashboardName="Overview"
+        @defaultDashboardName={{t "literal.customer-portal.overview"}}
         @showPanelWhenZeroWidgets={{true}}
         @stickyHeader={{true}}
         @leftHeaderWrapperClass="portal-dashboard-title"

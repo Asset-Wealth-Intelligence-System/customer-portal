@@ -2,9 +2,11 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
+import { inject as service } from '@ember/service';
 const ROUTE_COLOR = '#3485e2';
 
 export default class PortalOrderRouteListComponent extends Component {
+    @service intl;
     @tracked isWaypointsCollapsed = true;
 
     get routeStops() {
@@ -93,7 +95,7 @@ export default class PortalOrderRouteListComponent extends Component {
             place,
             role,
             label,
-            title: role === 'pickup' ? 'Pickup' : role === 'dropoff' ? 'Dropoff' : role === 'return' ? 'Return' : `Stop ${waypointNumber ?? sequence}`,
+            title: role === 'pickup' ? this.intl.t('literal.customer-portal.pickup') : role === 'dropoff' ? this.intl.t('literal.customer-portal.dropoff') : role === 'return' ? this.intl.t('literal.customer-portal.return') : this.intl.t('literal.customer-portal.stop', { value: waypointNumber ?? sequence }),
             badgeStyle: `background-color: ${markerColor}; color: #ffffff;`,
             trackingNumberUuid: waypoint?.tracking_number_uuid ?? waypoint?.tracking_number?.uuid ?? null,
         };

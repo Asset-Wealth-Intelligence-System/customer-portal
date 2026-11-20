@@ -8,6 +8,7 @@ import { task } from 'ember-concurrency';
 const NAMESPACE = 'customer-portal/int/v1';
 
 export default class PortalSettingsAccountComponent extends Component {
+    @service intl;
     @service currentUser;
     @service customerSession;
     @service fetch;
@@ -65,7 +66,7 @@ export default class PortalSettingsAccountComponent extends Component {
         if (canUpdateProfile === true) {
             try {
                 const user = yield this.user.save();
-                this.notifications.success('Profile changes saved.');
+                this.notifications.success(this.intl.t('literal.customer-portal.profile-changes-saved'));
                 this.currentUser.set('user', user);
             } catch (error) {
                 this.notifications.serverError(error);
@@ -79,7 +80,7 @@ export default class PortalSettingsAccountComponent extends Component {
         let isPasswordValid = false;
 
         yield this.modalsManager.show('modals/validate-password', {
-            body: 'You must validate your password to update the account email address.',
+            body: this.intl.t('literal.customer-portal.you-must-validate-your-password-to-update-the-ac-56898'),
             onValidated: (isValid) => {
                 isPasswordValid = isValid;
             },
@@ -94,7 +95,7 @@ export default class PortalSettingsAccountComponent extends Component {
         }
 
         if (this.newPassword !== this.newPasswordConfirmation) {
-            this.notifications.error('New password and confirmation do not match.');
+            this.notifications.error(this.intl.t('literal.customer-portal.new-password-and-confirmation-do-not-match'));
             return;
         }
 
@@ -112,7 +113,7 @@ export default class PortalSettingsAccountComponent extends Component {
             this.currentPassword = undefined;
             this.newPassword = undefined;
             this.newPasswordConfirmation = undefined;
-            this.notifications.success('Password changed successfully.');
+            this.notifications.success(this.intl.t('literal.customer-portal.password-changed-successfully'));
         } catch (error) {
             this.notifications.serverError(error, 'Failed to change password.');
         }

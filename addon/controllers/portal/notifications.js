@@ -16,30 +16,34 @@ const DEFAULT_PREFERENCES = {
     document_available: true,
 };
 
-const PREFERENCE_GROUPS = [
-    {
-        title: 'Orders',
-        description: 'Operational updates while your shipments move through dispatch and delivery.',
-        keys: ['order_created', 'order_dispatched', 'order_delayed', 'driver_nearby', 'order_delivered'],
-    },
-    {
-        title: 'Billing',
-        description: 'Invoice and payment status updates from your account ledger.',
-        keys: ['invoice_due', 'invoice_paid'],
-    },
-    {
-        title: 'Support',
-        description: 'Updates when your customer support tickets change.',
-        keys: ['ticket_updated'],
-    },
-    {
-        title: 'Documents',
-        description: 'Alerts when labels, PODs, receipts, or related files are available.',
-        keys: ['document_available'],
-    },
-];
 
 export default class PortalNotificationsController extends Controller {
+    get PREFERENCE_GROUPS() {
+        return [
+        {
+            title: this.intl.t('literal.customer-portal.orders'),
+            description: this.intl.t('literal.customer-portal.operational-updates-while-your-shipments-move-th-35f1f'),
+            keys: ['order_created', 'order_dispatched', 'order_delayed', 'driver_nearby', 'order_delivered'],
+        },
+        {
+            title: this.intl.t('literal.customer-portal.billing'),
+            description: this.intl.t('literal.customer-portal.invoice-and-payment-status-updates-from-your-acc-59ebf'),
+            keys: ['invoice_due', 'invoice_paid'],
+        },
+        {
+            title: this.intl.t('literal.customer-portal.support'),
+            description: this.intl.t('literal.customer-portal.updates-when-your-customer-support-tickets-chang-8e24a'),
+            keys: ['ticket_updated'],
+        },
+        {
+            title: this.intl.t('literal.customer-portal.documents'),
+            description: this.intl.t('literal.customer-portal.alerts-when-labels-pods-receipts-or-related-file-95a55'),
+            keys: ['document_available'],
+        },
+    ];
+    }
+
+    @service intl;
     @service fetch;
     @service notifications;
 
@@ -51,7 +55,7 @@ export default class PortalNotificationsController extends Controller {
     }
 
     get preferenceGroups() {
-        return PREFERENCE_GROUPS.map((group) => {
+        return this.PREFERENCE_GROUPS.map((group) => {
             return {
                 ...group,
                 items: group.keys.map((key) => {
@@ -80,7 +84,7 @@ export default class PortalNotificationsController extends Controller {
         try {
             const response = yield this.fetch.post('notification-preferences', { preferences: this.preferences }, { namespace: 'customer-portal/int/v1' });
             this.preferences = response.preferences ?? this.preferences;
-            this.notifications.success('Notification preferences saved.');
+            this.notifications.success(this.intl.t('literal.customer-portal.notification-preferences-saved'));
         } catch (error) {
             this.notifications.serverError(error);
         }

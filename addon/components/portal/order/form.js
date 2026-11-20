@@ -8,6 +8,7 @@ import { isBlank } from '@ember/utils';
 import config from 'ember-get-config';
 
 export default class PortalOrderFormComponent extends Component {
+    @service intl;
     @service customerPortalOrderActions;
     @service customerPortalOrderCreation;
     @service customerPortalOrderValidation;
@@ -102,7 +103,7 @@ export default class PortalOrderFormComponent extends Component {
 
     @action async submit() {
         if (!this.canSubmit) {
-            return this.notifications.warning('Select an order type and at least two route stops before creating the order.');
+            return this.notifications.warning(this.intl.t('literal.customer-portal.select-an-order-type-and-at-least-two-route-stop-d385f'));
         }
 
         if (this.isPaymentRequired && !this.draft?.purchaseRate) {
@@ -111,7 +112,7 @@ export default class PortalOrderFormComponent extends Component {
 
         try {
             const order = await this.customerPortalOrderActions.createOrder.perform(this.draft);
-            this.notifications.success('Order created.');
+            this.notifications.success(this.intl.t('literal.customer-portal.order-created'));
             this.customerPortalOrderCreation.reset();
             this.hostRouter.transitionTo('customer-portal.portal.orders.details', this.customerPortalOrderActions.identifier(order));
         } catch (error) {
@@ -133,7 +134,7 @@ export default class PortalOrderFormComponent extends Component {
                 this,
                 () => {
                     this.modalsManager.show('modals/service-quote-purchase-form', {
-                        title: `Complete Payment for ${this.draft.orderConfig?.name ?? 'Order'} Service`,
+                        title: `Complete Payment for ${this.draft.orderConfig?.name ?? this.intl.t('literal.customer-portal.order')} Service`,
                         modalClass: 'service-quote-extension-purchase',
                         modalFooterClass: 'hidden-i',
                         serviceQuote,
@@ -163,9 +164,9 @@ export default class PortalOrderFormComponent extends Component {
                 if (this.urlSearchParams.has('checkout_session_id') && this.urlSearchParams.has('service_quote')) {
                     await this.modalsManager.done();
                     this.modalsManager.show('modals/confirm-service-quote-purchase', {
-                        title: 'Finalizing Purchase',
+                        title: this.intl.t('literal.customer-portal.finalizing-purchase'),
                         modalClass: 'finalize-service-quote-purchase',
-                        loadingMessage: 'Completing purchase do not refresh or exit window...',
+                        loadingMessage: this.intl.t('literal.customer-portal.completing-purchase-do-not-refresh-or-exit-windo-63987'),
                         modalFooterClass: 'hidden-i',
                         backdropClose: false,
                     });
@@ -185,7 +186,7 @@ export default class PortalOrderFormComponent extends Component {
 
         this.restoreDraftForServiceQuote(serviceQuoteId);
         if (this.selectedServiceQuoteId !== serviceQuoteId) {
-            this.notifications.error('Something went wrong trying to complete purchase.');
+            this.notifications.error(this.intl.t('literal.customer-portal.something-went-wrong-trying-to-complete-purchase'));
             return;
         }
 

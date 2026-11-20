@@ -1,24 +1,24 @@
 <Modal::Default @modalIsOpened={{@modalIsOpened}} @options={{@options}} @confirm={{@onConfirm}} @decline={{@onDecline}}>
     <div class="modal-body-container">
         <div class="grid grid-cols-3 gap-2 text-xs dark:text-gray-100 no-input-group-padding">
-            <InputGroup @name="Name" @wrapperClass="col-span-3">
-                <Input @value={{this.place.name}} @type="text" class="w-full form-input" placeholder="Name" />
+            <InputGroup @name={{t "literal.customer-portal.name"}} @wrapperClass="col-span-3">
+                <Input @value={{this.place.name}} @type="text" class="w-full form-input" placeholder={{t "literal.customer-portal.name"}} />
             </InputGroup>
 
-            <InputGroup @name="Street 1" @value={{this.place.street1}} @wrapperClass="col-span-3">
+            <InputGroup @name={{t "literal.customer-portal.street-1"}} @value={{this.place.street1}} @wrapperClass="col-span-3">
                 <div class="portal-place-lookup">
                     <Input
                         @value={{this.place.street1}}
                         @type="text"
                         class="w-full form-input"
-                        placeholder="Street 1"
+                        placeholder={{t "literal.customer-portal.street-1"}}
                         autocomplete="off"
                         {{on "input" this.searchStreet}}
                     />
 
                     {{#if this.lookupPlaces.isRunning}}
                         <div class="portal-place-lookup-menu">
-                            <div class="portal-place-lookup-empty">Searching addresses...</div>
+                            <div class="portal-place-lookup-empty">{{t "literal.customer-portal.searching-addresses"}}</div>
                         </div>
                     {{else if this.hasLookupResults}}
                         <div class="portal-place-lookup-menu">
@@ -33,23 +33,23 @@
                 </div>
             </InputGroup>
 
-            <InputGroup @name="Street 2" @autocomplete="nope" @value={{this.place.street2}} @wrapperClass="col-span-3" />
-            <InputGroup @name="Neighborhood" @autocomplete="nope" @value={{this.place.neighborhood}} />
-            <InputGroup @name="Building" @autocomplete="nope" @value={{this.place.building}} />
-            <InputGroup @name="Security Access Code" @autocomplete="nope" @value={{this.place.security_access_code}} />
-            <InputGroup @name="Postal Code" @autocomplete="nope" @value={{this.place.postal_code}} />
-            <InputGroup @name="City" @autocomplete="nope" @value={{this.place.city}} />
-            <InputGroup @name="State" @autocomplete="nope" @value={{this.place.province}} />
+            <InputGroup @name={{t "literal.customer-portal.street-2"}} @autocomplete="nope" @value={{this.place.street2}} @wrapperClass="col-span-3" />
+            <InputGroup @name={{t "literal.customer-portal.neighborhood"}} @autocomplete="nope" @value={{this.place.neighborhood}} />
+            <InputGroup @name={{t "literal.customer-portal.building"}} @autocomplete="nope" @value={{this.place.building}} />
+            <InputGroup @name={{t "literal.customer-portal.security-access-code"}} @autocomplete="nope" @value={{this.place.security_access_code}} />
+            <InputGroup @name={{t "literal.customer-portal.postal-code"}} @autocomplete="nope" @value={{this.place.postal_code}} />
+            <InputGroup @name={{t "literal.customer-portal.city"}} @autocomplete="nope" @value={{this.place.city}} />
+            <InputGroup @name={{t "literal.customer-portal.state"}} @autocomplete="nope" @value={{this.place.province}} />
 
-            <InputGroup @name="Country" @wrapperClass="col-span-2">
-                <CountrySelect class="w-full form-input form-select form-datalist" @value={{this.place.country}} @onChange={{fn (mut this.place.country)}} placeholder="Country" />
+            <InputGroup @name={{t "literal.customer-portal.country"}} @wrapperClass="col-span-2">
+                <CountrySelect class="w-full form-input form-select form-datalist" @value={{this.place.country}} @onChange={{fn (mut this.place.country)}} placeholder={{t "literal.customer-portal.country"}} />
             </InputGroup>
 
-            <InputGroup @name="Coordinates" @wrapperClass="col-span-2">
+            <InputGroup @name={{t "literal.customer-portal.coordinates"}} @wrapperClass="col-span-2">
                 <ModelCoordinatesInput @model={{this.place}} @autocomplete="all" @onInputReady={{fn (mut this.coordinatesInput)}} />
             </InputGroup>
 
-            <InputGroup @name="Phone" @wrapperClass="col-span-2">
+            <InputGroup @name={{t "literal.customer-portal.phone"}} @wrapperClass="col-span-2">
                 <PhoneInput @value={{this.place.phone}} @autocomplete="nope" @onInput={{fn (mut this.place.phone)}} class="form-input w-full" />
             </InputGroup>
         </div>

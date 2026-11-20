@@ -1,8 +1,8 @@
 <div class="portal-dashboard-widget portal-list-widget" ...attributes>
     <div class="portal-widget-header">
         <div>
-            <div class="portal-widget-title">Recent Orders</div>
-            <div class="portal-widget-subtitle">Latest shipments for this account</div>
+            <div class="portal-widget-title">{{t "literal.customer-portal.recent-orders"}}</div>
+            <div class="portal-widget-subtitle">{{t "literal.customer-portal.latest-shipments-for-this-account"}}</div>
         </div>
         <FaIcon @icon="clock-rotate-left" />
     </div>
@@ -23,7 +23,7 @@
                         <div class="portal-widget-order-stop">
                             <div class="portal-widget-order-stop-marker pickup">1</div>
                             <div class="portal-widget-order-stop-copy">
-                                <div class="portal-widget-order-stop-label">Pickup</div>
+                                <div class="portal-widget-order-stop-label">{{t "literal.customer-portal.pickup"}}</div>
                                 <div class="portal-widget-order-stop-address">{{n-a row.pickupAddress}}</div>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                             <div class="portal-widget-order-stop compact">
                                 <div class="portal-widget-order-stop-marker waypoint">+</div>
                                 <div class="portal-widget-order-stop-copy">
-                                    <div class="portal-widget-order-stop-label">Waypoints</div>
+                                    <div class="portal-widget-order-stop-label">{{t "literal.customer-portal.waypoints"}}</div>
                                     <div class="portal-widget-order-stop-address">{{row.middleStopCount}} additional {{if (eq row.middleStopCount 1) "stop" "stops"}}</div>
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
                     </div>
                 </LinkTo>
             {{else}}
-                <div class="portal-widget-empty">No recent orders.</div>
+                <div class="portal-widget-empty">{{t "literal.customer-portal.no-recent-orders"}}</div>
             {{/each}}
         {{/if}}
         {{#if (gt this.rows.length 3)}}

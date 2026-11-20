@@ -6,6 +6,7 @@ import { task } from 'ember-concurrency';
 import { issueCategories, issuePriorities } from '@fleetbase/fleetops-engine/utils/fleet-ops-options';
 
 export default class PortalSupportNewController extends Controller {
+    @service intl;
     @service fetch;
     @service notifications;
     @service hostRouter;
@@ -64,7 +65,7 @@ export default class PortalSupportNewController extends Controller {
             );
 
             this.resetForm();
-            this.notifications.success('Support ticket created.');
+            this.notifications.success(this.intl.t('literal.customer-portal.support-ticket-created'));
             this.hostRouter.transitionTo('customer-portal.portal.support.index');
         } catch (error) {
             this.notifications.serverError(error);
